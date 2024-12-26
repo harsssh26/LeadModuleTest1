@@ -1,20 +1,22 @@
-Feature: Login functionality
+Feature: Login Functionality
 
-  @Login
-  Scenario: Successful login with valid credentials
-    Given the user is on the login page
-    When they enter valid login credentials
-    Then they should be logged in successfully
-    And they log out
+  @Retry
+  @SCRUM-TC-1
+  Scenario: Login with valid credentials
+    Given User is on the Login Page
+    When User logs in with valid credentials
+    Then User should see the home page
 
-  @Login
-  Scenario: Unsuccessful login with invalid credentials
-    Given the user is on the login page
-    When they enter invalid login credentials
-    Then they should see an error message
+  @Retry
+  @SCRUM-TC-3
+  Scenario: Login with invalid credentials
+    Given User is on the Login Page
+    When User logs in with invalid credentials
+    Then User should see an error message
 
-    @Login
-  Scenario: Unsuccessful login with blank credentials
-    Given the user is on the login page
-    When they leave the login credentials blank
-    Then they should remain on the login page due to missing credentials
+  @Retry
+  @SCRUM-TC-2
+  Scenario: Login with blank credentials
+    Given User is on the Login Page
+    When User logs in with blank credentials
+    Then User should see the login page

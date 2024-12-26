@@ -1,70 +1,48 @@
 package org.example.stepDefinitions;
 
 import io.cucumber.java.en.*;
-import org.example.framework.Utility;
-import org.example.modules.pages.LoginPage;
 import org.example.framework.TestAutomationFramework;
-import org.junit.Test;
-import org.openqa.selenium.By;
+import org.example.modules.pages.LoginPage;
 import org.openqa.selenium.WebDriver;
-import org.junit.Assert;
+
+import static org.junit.Assert.assertTrue;
 
 public class LoginSteps {
-    WebDriver driver = TestAutomationFramework.getDriver();
-    LoginPage loginPage = new LoginPage(driver);
-    Utility utility = new Utility(driver);
+    private final WebDriver driver = TestAutomationFramework.getDriver();
+    private final LoginPage loginPage = new LoginPage(driver);
 
-    @Given("the user is on the login page")
-    public void the_user_is_on_the_login_page() throws InterruptedException {
-        Thread.sleep(1000);
-        TestAutomationFramework.openUrl("https://ck-qe-dev-ed.develop.lightning.force.com/lightning/setup/SetupOneHome/home");
+    @Given("User is on the Login Page")
+    public void userIsOnLoginPage() {
+        TestAutomationFramework.openUrl("https://app-saas-9590.lightning.force.com/lightning/page/home");
     }
 
-    @When("they enter valid login credentials")
-    public void they_enter_valid_login_credentials() {
+    @When("User logs in with valid credentials")
+    public void userLogsInWithValidCredentials() {
         loginPage.enterValidCredentials();
     }
 
-    @Then("they should be logged in successfully")
-    public void they_should_be_logged_in_successfully() throws InterruptedException {
-        boolean isHomePageDisplayed = loginPage.isHomePageDisplayed();
-        Assert.assertTrue("Login failed: Home page is not displayed", isHomePageDisplayed);
-        System.out.println("Login successful: Home page is displayed.");
+    @Then("User should see the home page")
+    public void userShouldSeeHomePage() {
+        assertTrue("Home page not displayed", loginPage.isHomePageDisplayed());
     }
 
-    @And("they log out")
-    public void they_log_out()
-    {
-        loginPage.log_out();
-        TestAutomationFramework.closeBrowser();
-    }
-
-
-    @When("they enter invalid login credentials")
-    public void they_enter_invalid_login_credentials() {
+    @When("User logs in with invalid credentials")
+    public void userLogsInWithInvalidCredentials() {
         loginPage.enterInvalidCredentials();
     }
 
-    @Then("they should see an error message")
-    public void they_should_see_an_error_message() {
-        boolean isErrorDisplayed = loginPage.isErrorMessageDisplayed();
-        Assert.assertTrue("Error message not displayed", isErrorDisplayed);
-        System.out.println("Error message displayed as expected.");
-        TestAutomationFramework.closeBrowser();
+    @Then("User should see an error message")
+    public void userShouldSeeErrorMessage() {
+        assertTrue("Error message not displayed", loginPage.isErrorMessageDisplayed());
     }
 
-    @When("they leave the login credentials blank")
-    public void they_leave_the_login_credentials_blank() {
+    @When("User logs in with blank credentials")
+    public void userLogsInWithBlankCredentials() {
         loginPage.enterBlankCredentials();
     }
 
-    @Then("they should remain on the login page due to missing credentials")
-    public void they_should_remain_on_the_login_page_due_to_missing_credentials() {
-        boolean isOnLoginPage = loginPage.isLoginPageDisplayed();
-        Assert.assertTrue("User was not redirected to login page due to missing credentials.", isOnLoginPage);
-        System.out.println("User remains on login page due to missing credentials.");
-        TestAutomationFramework.closeBrowser();
+    @Then("User should see the login page")
+    public void userShouldSeeLoginPage() {
+        assertTrue("Login page not displayed", loginPage.isLoginPageDisplayed());
     }
-
-
 }

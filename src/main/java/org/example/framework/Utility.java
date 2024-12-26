@@ -1,5 +1,4 @@
 package org.example.framework;
-
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -32,6 +31,9 @@ public class Utility {
         }
     }
 
+
+
+
     public void enterText(By locator, String text) {
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
         element.clear();
@@ -53,7 +55,8 @@ public class Utility {
         js.executeScript("arguments[0].click();", element);
     }
 
-    public void jsClick(WebElement element) {
+    public void jsClick(WebElement element)
+    {
         js.executeScript("arguments[0].click();", element);
     }
 
@@ -80,6 +83,7 @@ public class Utility {
         try {
             return wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).isDisplayed();
         } catch (TimeoutException e) {
+            System.out.println("Unable to locate element with locator "+locator);
             return false;
         }
     }

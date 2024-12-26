@@ -1,31 +1,55 @@
 package org.example.modules.pages;
-
 import com.github.javafaker.Faker;
 import org.example.framework.Utility;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class LoginPage {
-    private static final String VALID_USERNAME = "saikat@cloudkaptan.com.dev";
-    private static final String VALID_PASSWORD = "Sat1234567";
+    private static final String VALID_USERNAME ="harsh.wardhan-2vpx@force.com";
+    private static final String VALID_PASSWORD ="Harsh@73792610";
 
     private final Utility utility;
     private final Faker faker = new Faker();
+    private final WebDriver driver;
+    private final WebDriverWait wait;
 
+    // Locators
     private final By usernameField = By.id("username");
     private final By passwordField = By.id("password");
     private final By loginButton = By.id("Login");
     private final By errorMessage = By.id("error");
+    private final By homePageHeader = By.xpath("//span[normalize-space()='Home']");
+    private final By profileIcon = By.xpath("//div[@class='profileTrigger branding-user-profile bgimg slds-avatar slds-avatar_profile-image-small circular forceEntityIcon']//span[@class='uiImage']");
+    private final By logoutButton = By.xpath("//a[@class='profile-link-label logout uiOutputURL']");
 
     public LoginPage(WebDriver driver) {
+        this.driver = driver;
         this.utility = new Utility(driver);
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(30)); // waiting for 30 seconds before element comes into visibility
     }
 
     public void login(String username, String password) {
-        utility.enterText(usernameField, username);
-        utility.enterText(passwordField, password);
-        utility.clickElement(loginButton);
+        utility.waitForPageToLoad();
+        try {
+            System.out.println("Entering Username");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(usernameField)).sendKeys(username);
+
+            System.out.println("Entering Password");
+            wait.until(ExpectedConditions.visibilityOfElementLocated(passwordField)).sendKeys(password);
+
+            System.out.println("Clicking Login Button");
+            wait.until(ExpectedConditions.elementToBeClickable(loginButton)).click();
+        } catch (TimeoutException e) {
+            System.err.println("Timeout during login: " + e.getMessage());
+            throw e;
+        }
     }
+
 
     public void enterValidCredentials() {
         login(VALID_USERNAME, VALID_PASSWORD);
@@ -42,26 +66,30 @@ public class LoginPage {
     }
 
     public boolean isErrorMessageDisplayed() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
         return utility.verifyElementPresence(errorMessage);
     }
 
     public String getErrorMessageText() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage));
         return utility.getElementValue(errorMessage);
     }
 
-    public  boolean isLoginPageDisplayed() {
+    public boolean isLoginPageDisplayed() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(usernameField));
         return utility.verifyElementPresence(usernameField);
     }
 
-    public boolean isHomePageDisplayed() throws InterruptedException {
-        Thread.sleep(5000);
-        utility.waitForVisibility(By.xpath("//div[@class='slds-page-header branding-setup onesetupSetupHeader']//span[normalize-space()='Home']"));
-        return utility.verifyElementPresence(By.xpath("//div[@class='slds-page-header branding-setup onesetupSetupHeader']//span[normalize-space()='Home']"));
+    public boolean isHomePageDisplayed() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(homePageHeader));
+        return utility.verifyElementPresence(homePageHeader);
     }
 
-    public void log_out()//logging out
-    {
-        utility.jsClick(By.xpath("//div[@class='profileTrigger branding-user-profile bgimg slds-avatar slds-avatar_profile-image-small circular forceEntityIcon']//span[@class='uiImage']"));
-        utility.jsClick(By.xpath("//a[@class='profile-link-label logout uiOutputURL']"));
+    public void log_out() { // Logging out
+        wait.until(ExpectedConditions.elementToBeClickable(profileIcon));
+        utility.jsClick(profileIcon);
+
+        wait.until(ExpectedConditions.elementToBeClickable(logoutButton));
+        utility.jsClick(logoutButton);
     }
 }
