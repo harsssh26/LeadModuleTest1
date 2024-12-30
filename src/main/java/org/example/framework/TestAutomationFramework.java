@@ -57,7 +57,8 @@ public class TestAutomationFramework {
                         .executeScript("return document.readyState").equals("complete"));
     }
 
-    public static String captureScreenshot(String testName, int retryCount) {
+    public static String captureScreenshot(String testName, int retryCount)
+    {
         waitForPageToLoad();
         System.out.println(driver.get().getTitle());
         WebDriver driver = getDriver();

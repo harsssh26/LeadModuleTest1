@@ -1,5 +1,4 @@
 package org.example.framework;
-
 import io.cucumber.java.Scenario;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -15,7 +14,8 @@ public class RetryHook {
     }
 
     @After
-    public void afterScenario(Scenario scenario) {
+    public void afterScenario(Scenario scenario)// This scenario is used to capture screenshot for failed scenarios
+    {
         if (scenario.isFailed()) {
             String screenshotPath = TestAutomationFramework.captureScreenshot(scenario.getName(), RetryLogic.getRetryCount(scenario));
             if (screenshotPath != null) {
@@ -28,7 +28,8 @@ public class RetryHook {
         TestAutomationFramework.closeBrowser();
     }
 
-    private String getTestCaseIdFromTags(Scenario scenario) {
+    private String getTestCaseIdFromTags(Scenario scenario)// Used to get the Scenario or Test case id from the Test being run for e.g. @SCRUM-TC-1 Tag's in feature file is taken and @ is removed and only the Test case id is utilized
+    {
         return scenario.getSourceTagNames().stream()
                 .filter(tag -> tag.startsWith("@SCRUM-TC-"))
                 .findFirst()

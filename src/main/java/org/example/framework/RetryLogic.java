@@ -11,6 +11,7 @@ public class RetryLogic {
     private static final Map<String, Integer> retryCounts = new HashMap<>(); // Track retry counts for each scenario
 
     public static int getRetryCount(Scenario scenario) {
+
         return retryCounts.getOrDefault(scenario.getId(), 0);
     }
 

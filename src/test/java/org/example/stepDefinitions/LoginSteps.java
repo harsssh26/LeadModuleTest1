@@ -13,7 +13,7 @@ public class LoginSteps {
 
     @Given("User is on the Login Page")
     public void userIsOnLoginPage() {
-        TestAutomationFramework.openUrl("https://app-saas-9590.lightning.force.com/lightning/page/home");
+        TestAutomationFramework.openUrl("https://inspiration-ruby-4894.lightning.force.com/lightning/page/home");
     }
 
     @When("User logs in with valid credentials")
