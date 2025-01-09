@@ -5,6 +5,7 @@ Feature: Login Functionality
   Scenario: Login with valid credentials
     Given User is on the Login Page
     When User logs in with valid credentials
+    And User verifies Login with valid TOTP
     Then User should see the home page
 
   @Retry

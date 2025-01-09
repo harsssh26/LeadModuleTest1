@@ -59,6 +59,9 @@ public class TestAutomationFramework {
 
     public static String captureScreenshot(String testName, int retryCount)
     {
+
+        // calling method to delete previous screenshots
+        cleanUpOldScreenshots(testName, retryCount);
         waitForPageToLoad();
         System.out.println(driver.get().getTitle());
         WebDriver driver = getDriver();
@@ -78,6 +81,28 @@ public class TestAutomationFramework {
             System.err.println("Driver does not support screenshots.");
         }
         return null;
+    }
+
+    private static void cleanUpOldScreenshots(String testName, int retryCount) {
+        try {
+            // Directory where screenshots are stored
+            File screenshotDir = new File("screenshots/");
+
+            // Get all files in the screenshots directory
+            File[] files = screenshotDir.listFiles((dir, name) -> name.startsWith(testName + "_retry" + retryCount));
+
+            if (files != null && files.length > 1) {
+                // If more than 1 screenshot exists, delete the older ones
+                for (int i = 0; i < files.length - 1; i++) {
+                    boolean deleted = files[i].delete();
+                    if (deleted) {
+                        System.out.println("Deleted old screenshot: " + files[i].getName());
+                    }
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error during screenshot cleanup: " + e.getMessage());
+        }
     }
 
 

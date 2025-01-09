@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class RetryLogic {
 
-    private static final int MAX_RETRY_COUNT = 0; // Maximum number of retries per scenario
+    private static final int MAX_RETRY_COUNT = 1; // Maximum number of retries per scenario
     private static final Map<String, Integer> retryCounts = new HashMap<>(); // Track retry counts for each scenario
 
     public static int getRetryCount(Scenario scenario) {
@@ -27,3 +27,4 @@ public class RetryLogic {
         retryCounts.remove(scenario.getId());
     }
 }
+

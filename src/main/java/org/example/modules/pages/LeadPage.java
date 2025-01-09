@@ -37,7 +37,7 @@ public class LeadPage {
     public void  navigateToLeads()
     {
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='slds-icon-waffle']")));
-        utility.jsClick(By.xpath("//div[@class='slds-icon-waffleadjhfbhbjhbhjkadb']"));
+        utility.jsClick(By.xpath("//div[@class='slds-icon-waffle']"));
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//input[@placeholder='Search apps and items...']")));
         utility.enterText(By.xpath("//input[@placeholder='Search apps and items...']"), "Leads");

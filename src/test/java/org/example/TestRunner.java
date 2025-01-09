@@ -40,6 +40,7 @@ public class TestRunner {
                         return;
                 }
 
+
                 // Upload screenshots for failed tests
                 List<String> failedTestScreenshots = AioIntegration.getFailedTestScreenshots();
                 if (!failedTestScreenshots.isEmpty()) {
@@ -53,5 +54,7 @@ public class TestRunner {
                 } else {
                         System.out.println("No failed test screenshots to upload.");
                 }
+
+
         }
 }
