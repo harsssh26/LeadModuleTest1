@@ -85,7 +85,6 @@ public class OTPHandler {
             ZonedDateTime localTime = ZonedDateTime.now(ZoneId.of("Asia/Kolkata"));
             long currentTimestamp = localTime.toInstant().getEpochSecond();
             long timeStep = currentTimestamp / OTP_PERIOD;
-
             return generateTOTPForTimeStep(secretKeyBytes, timeStep);
 
         } catch (Exception e) {
@@ -94,6 +93,7 @@ public class OTPHandler {
         }
     }
 
+    //changes
     private String generateTOTPForTimeStep(byte[] secretKeyBytes, long timeStep) throws NoSuchAlgorithmException, InvalidKeyException
     {
         ByteBuffer buffer = ByteBuffer.allocate(8);
